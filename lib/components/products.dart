@@ -8,23 +8,23 @@ class Products extends StatefulWidget {
 class _ProductsState extends State<Products> {
   var productList = [
     {
-      "name": "Blazer",
-      "picture": "images/categories",
+      "name": "Engineering",
+      "picture": "images/categories/engineering.png",
       "oldPrice": 120,
       "price": 100,
     },
     {
       "name": "Bodybuilding",
-      "picture": "images/categories/bodybuilding.jpg",
+      "picture": "images/categories/bodybuilding.png",
       "oldPrice": 120,
       "price": 100,
     },
-    {
+    /*{
       "name": "Career",
       "picture": "images/categories/career.png",
       "oldPrice": 120,
       "price": 100,
-    },
+    },*/
   ];
 
   @override
@@ -56,7 +56,41 @@ class SingleProduct extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-       child: Text("test")
+      child: Card(
+        child: Hero(
+            tag: productName,
+            child: Material(
+              child: InkWell(
+                onTap: () {},
+                child: GridTile(
+                    footer: Container(
+                      color: Colors.white70,
+                      child: ListTile(
+                        leading: Text(
+                          productName,
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        title: Text(
+                          "$productPrice",
+                          style: TextStyle(
+                              color: Colors.red, fontWeight: FontWeight.w800),
+                        ),
+                        subtitle: Text(
+                          "$productOldPrice",
+                          style: TextStyle(
+                              color: Colors.black54,
+                              fontWeight: FontWeight.w800,
+                              decoration: TextDecoration.lineThrough),
+                        ),
+                      ),
+                    ),
+                    child: Image.asset(
+                      productPicture,
+                      fit: BoxFit.cover,
+                    )),
+              ),
+            )),
+      ),
     );
   }
 }
