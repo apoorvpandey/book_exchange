@@ -62,19 +62,23 @@ class Category extends StatelessWidget {
       padding: const EdgeInsets.all(2),
       child: InkWell(
         onTap: () {},
-        child: Container(
-          width: 80,
-          height: 80,
-          child: ListTile(
-            title: Image.asset(
-              imageLocation,
+        child: Wrap(
+          direction: Axis.horizontal,
+          children: [
+            Container(
               width: 100,
               height: 80,
+              child: ListTile(
+                title: Image.asset(
+                  imageLocation,
+                  width: 100,
+                  height: 80,
+                ),
+                subtitle: Container(
+                    child: Text(imageCaption,)),
+              ),
             ),
-            subtitle: Container(
-              alignment: Alignment.center,
-                child: Text(imageCaption,)),
-          ),
+          ],
         ),
       ),
     );
