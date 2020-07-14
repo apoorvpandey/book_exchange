@@ -20,12 +20,30 @@ class _ProductsState extends State<Products> {
       "oldPrice": 120,
       "price": 100,
     },
-    /*{
-      "name": "Career",
-      "picture": "images/categories/career.png",
+    {
+      "name": "Security",
+      "picture": "images/categories/security.png",
       "oldPrice": 120,
       "price": 100,
-    },*/
+    },
+    {
+      "name": "Influencing",
+      "picture": "images/categories/influencing.png",
+      "oldPrice": 120,
+      "price": 100,
+    },
+    {
+      "name": "Electronics",
+      "picture": "images/categories/electronics.png",
+      "oldPrice": 120,
+      "price": 100,
+    },
+    {
+      "name": "Cloud Computing",
+      "picture": "images/categories/cloud.png",
+      "oldPrice": 120,
+      "price": 100,
+    },
   ];
 
   @override
@@ -59,32 +77,25 @@ class SingleProduct extends StatelessWidget {
     return Container(
       child: Card(
         child: Hero(
-            tag: productName,
+            tag: Text("Hero"),
             child: Material(
               child: InkWell(
                 onTap: () => Navigator.of(context).push(new MaterialPageRoute(
-                    builder: (context) => new ProductDetails())),
+                    builder: (context) => new ProductDetails(
+                          productDetailsName: productName,
+                          productDetailsNewPrice: productPrice,
+                          productDetailsOldPrice: productOldPrice,
+                          productDetailsPicture: productPicture,
+                        ))),
                 child: GridTile(
                     footer: Container(
-                      color: Colors.white70,
-                      child: ListTile(
-                        leading: Text(
-                          productName,
-                          style: TextStyle(fontWeight: FontWeight.bold),
+                      color: Colors.white,
+                      child: Row(children: [
+                        Expanded(
+                          child: Text(productName, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),),
                         ),
-                        title: Text(
-                          "$productPrice",
-                          style: TextStyle(
-                              color: Colors.red, fontWeight: FontWeight.w800),
-                        ),
-                        subtitle: Text(
-                          "$productOldPrice",
-                          style: TextStyle(
-                              color: Colors.black54,
-                              fontWeight: FontWeight.w800,
-                              decoration: TextDecoration.lineThrough),
-                        ),
-                      ),
+                        Text("₹${productPrice}", style: TextStyle(color: Colors.red, fontWeight: FontWeight.bold),)
+                      ],)
                     ),
                     child: Image.asset(
                       productPicture,

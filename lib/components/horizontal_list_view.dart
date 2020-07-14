@@ -13,37 +13,30 @@ class HorizontalListView extends StatelessWidget {
             imageLocation: "images/categories/bodybuilding.png",
             imageCaption: "Bodybuilding",
           ),
-
           Category(
             imageLocation: "images/categories/career.png",
             imageCaption: "Career",
           ),
-
           Category(
             imageLocation: "images/categories/engineering.png",
             imageCaption: "Engineering",
           ),
-
           Category(
             imageLocation: "images/categories/maths.png",
             imageCaption: "Mathematics",
           ),
-
           Category(
             imageLocation: "images/categories/motivation.png",
             imageCaption: "Motivation",
           ),
-
           Category(
             imageLocation: "images/categories/programming.png",
             imageCaption: "Programming",
           ),
-
           Category(
             imageLocation: "images/categories/school.png",
             imageCaption: "School",
           ),
-
         ],
       ),
     );
@@ -62,8 +55,7 @@ class Category extends StatelessWidget {
       padding: const EdgeInsets.all(2),
       child: InkWell(
         onTap: () {},
-        child: Wrap(
-          direction: Axis.horizontal,
+        child: Column(
           children: [
             Container(
               width: 100,
@@ -75,7 +67,10 @@ class Category extends StatelessWidget {
                   height: 80,
                 ),
                 subtitle: Container(
-                    child: Text(imageCaption,)),
+                    child: Text(
+                  imageCaption,
+                  overflow: TextOverflow.ellipsis,
+                )),
               ),
             ),
           ],

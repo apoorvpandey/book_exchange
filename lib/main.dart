@@ -32,6 +32,7 @@ class _HomePageState extends State<HomePage> {
         animationDuration: Duration(milliseconds: 1000),
         dotSize: 4,
         indicatorBgPadding: 2,
+        dotBgColor: Colors.transparent,
       ),
     );
 
@@ -106,9 +107,9 @@ class _HomePageState extends State<HomePage> {
             InkWell(
               onTap: () {},
               child: ListTile(
-                title: Text("Categories"),
+                title: Text("Shopping Cart"),
                 leading: Icon(
-                  Icons.category,
+                  Icons.shopping_cart,
                   color: Colors.red,
                 ),
               ),
