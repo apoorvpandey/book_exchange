@@ -106,7 +106,7 @@ class _LoginState extends State<Login> {
             child: FlatButton(
               color: Colors.red.shade900,
               onPressed: () {
-                isSignedIn();
+                handleSign();
               },
               child: Text(
                 'SignIn/SignUp with Google',
