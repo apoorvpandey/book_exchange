@@ -72,6 +72,7 @@ class _LoginState extends State<Login> {
         await preferences.setString("userName", googleUser.displayName);
         await preferences.setString("profilePicture", googleUser.photoUrl);
       }
+
       else
         {
           await preferences.setString("ID", documents[0]["ID"]);
