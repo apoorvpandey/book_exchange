@@ -1,6 +1,9 @@
 import 'package:bookexchange/components/horizontal_list_view.dart';
 import 'package:bookexchange/components/products.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+
 import 'package:carousel_pro/carousel_pro.dart';
 import 'package:bookexchange/views/cart.dart';
 
@@ -10,6 +13,10 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+
+  final GoogleSignIn googleSignIn = new GoogleSignIn();
+  final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+
   @override
   Widget build(BuildContext context) {
     Widget imageCarousel = new Container(
