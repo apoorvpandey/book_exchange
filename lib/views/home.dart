@@ -3,7 +3,6 @@ import 'package:bookexchange/components/products.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-
 import 'package:carousel_pro/carousel_pro.dart';
 import 'package:bookexchange/views/cart.dart';
 
@@ -24,10 +23,10 @@ class _HomePageState extends State<HomePage> {
       child: Carousel(
         boxFit: BoxFit.cover,
         images: [
-          AssetImage("images/carousel/image1.jpg"),
-          AssetImage("images/carousel/image2.jpg"),
-          AssetImage("images/carousel/image3.jpg"),
-          AssetImage("images/carousel/image4.jpg"),
+          AssetImage("images/carousel/product1.jpg"),
+          AssetImage("images/carousel/product2.jpg"),
+          AssetImage("images/carousel/product3.jpg"),
+          AssetImage("images/carousel/product4.jpg"),
         ],
         animationCurve: Curves.fastOutSlowIn,
         animationDuration: Duration(milliseconds: 1000),

@@ -11,7 +11,7 @@ class _CartProductsState extends State<CartProducts> {
   var productsInTheCart = [
     {
       "name": "Engineering",
-      "picture": "images/categories/engineering.png",
+      "picture": "assets/images/categories/engineering.png",
       "price": 100,
       "size": "M",
       "color": "Black",
@@ -19,7 +19,7 @@ class _CartProductsState extends State<CartProducts> {
     },
     {
       "name": "Bodybuilding",
-      "picture": "images/categories/bodybuilding.png",
+      "picture": "assets/images/categories/bodybuilding.png",
       "price": 150,
       "size": "S",
       "color": "White",

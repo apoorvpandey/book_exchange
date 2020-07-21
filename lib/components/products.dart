@@ -40,7 +40,7 @@ class _ProductsState extends State<Products> {
     },
     {
       "name": "Cloud Computing",
-      "picture": "images/categories/cloud.png",
+      "picture": "assets/images/categories/cloud.png",
       "oldPrice": 120,
       "price": 100,
     },
