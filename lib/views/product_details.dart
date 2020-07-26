@@ -32,7 +32,6 @@ class _ProductDetailsState extends State<ProductDetails> {
             ),
             onPressed: () {},
           ),
-
         ],
       ),
       body: ListView(
@@ -286,7 +285,7 @@ class _SimilarProductsState extends State<SimilarProducts> {
     return GridView.builder(
         itemCount: productList.length,
         gridDelegate:
-        new SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
+            new SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
         itemBuilder: (BuildContext context, int index) {
           return SimilarSingleProduct(
             productName: productList[index]["name"],
@@ -303,9 +302,9 @@ class SimilarSingleProduct extends StatelessWidget {
 
   SimilarSingleProduct(
       {this.productName,
-        this.productOldPrice,
-        this.productPicture,
-        this.productPrice});
+      this.productOldPrice,
+      this.productPicture,
+      this.productPrice});
 
   @override
   Widget build(BuildContext context) {
@@ -317,21 +316,31 @@ class SimilarSingleProduct extends StatelessWidget {
               child: InkWell(
                 onTap: () => Navigator.of(context).push(new MaterialPageRoute(
                     builder: (context) => new ProductDetails(
-                      productDetailsName: productName,
-                      productDetailsNewPrice: productPrice,
-                      productDetailsOldPrice: productOldPrice,
-                      productDetailsPicture: productPicture,
-                    ))),
+                          productDetailsName: productName,
+                          productDetailsNewPrice: productPrice,
+                          productDetailsOldPrice: productOldPrice,
+                          productDetailsPicture: productPicture,
+                        ))),
                 child: GridTile(
                     footer: Container(
                         color: Colors.white,
-                        child: Row(children: [
-                          Expanded(
-                            child: Text(productName, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),),
-                          ),
-                          Text("₹${productPrice}", style: TextStyle(color: Colors.red, fontWeight: FontWeight.bold),)
-                        ],)
-                    ),
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: Text(
+                                productName,
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold, fontSize: 16),
+                              ),
+                            ),
+                            Text(
+                              "₹${productPrice}",
+                              style: TextStyle(
+                                  color: Colors.red,
+                                  fontWeight: FontWeight.bold),
+                            )
+                          ],
+                        )),
                     child: Image.asset(
                       productPicture,
                       fit: BoxFit.cover,

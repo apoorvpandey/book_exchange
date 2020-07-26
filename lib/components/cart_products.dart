@@ -7,7 +7,6 @@ class CartProducts extends StatefulWidget {
 }
 
 class _CartProductsState extends State<CartProducts> {
-
   var productsInTheCart = [
     {
       "name": "Engineering",
@@ -30,28 +29,30 @@ class _CartProductsState extends State<CartProducts> {
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
-      itemCount: productsInTheCart.length,
-        itemBuilder: (context, index){
-        return SingleCartProduct(
-          cartProductName: productsInTheCart[index] ["name"],
-          cartProductColor: productsInTheCart[index] ["color"],
-          cartProductPicture: productsInTheCart[index] ["picture"],
-          cartProductPrice: productsInTheCart[index] ["price"],
-          cartProductQuantity: productsInTheCart[index] ["quantity"],
-          cartProductSize: productsInTheCart[index] ["size"],
-        );
+        itemCount: productsInTheCart.length,
+        itemBuilder: (context, index) {
+          return SingleCartProduct(
+            cartProductName: productsInTheCart[index]["name"],
+            cartProductColor: productsInTheCart[index]["color"],
+            cartProductPicture: productsInTheCart[index]["picture"],
+            cartProductPrice: productsInTheCart[index]["price"],
+            cartProductQuantity: productsInTheCart[index]["quantity"],
+            cartProductSize: productsInTheCart[index]["size"],
+          );
         });
-
   }
 }
 
 class SingleCartProduct extends StatelessWidget {
+  final cartProductName,
+      cartProductPicture,
+      cartProductPrice,
+      cartProductSize,
+      cartProductColor,
+      cartProductQuantity;
 
-  final cartProductName, cartProductPicture, cartProductPrice, cartProductSize, cartProductColor, cartProductQuantity;
-
-
-  SingleCartProduct({
-      this.cartProductName,
+  SingleCartProduct(
+      {this.cartProductName,
       this.cartProductPicture,
       this.cartProductPrice,
       this.cartProductSize,
@@ -62,7 +63,11 @@ class SingleCartProduct extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       child: ListTile(
-        leading: Image.asset(cartProductPicture, width: 80 , height: 80,),
+        leading: Image.asset(
+          cartProductPicture,
+          width: 80,
+          height: 80,
+        ),
         title: Text(cartProductName),
         subtitle: Column(
           children: [
@@ -70,39 +75,47 @@ class SingleCartProduct extends StatelessWidget {
               children: [
                 Padding(
                   padding: const EdgeInsets.all(0),
-                  child: Text("Size:", style: TextStyle(color: Colors.red, fontWeight: FontWeight.bold)),
+                  child: Text("Size:",
+                      style: TextStyle(
+                          color: Colors.red, fontWeight: FontWeight.bold)),
                 ),
                 Padding(
                   padding: const EdgeInsets.all(4.0),
-                  child: Text(cartProductSize, style: TextStyle(fontStyle: FontStyle.italic)),
-                ),
-                Padding(padding: const EdgeInsets.fromLTRB(20, 8, 8, 8),
-                child: Text("Color:", style: TextStyle(color: Colors.red, fontWeight: FontWeight.bold))
+                  child: Text(cartProductSize,
+                      style: TextStyle(fontStyle: FontStyle.italic)),
                 ),
                 Padding(
+                    padding: const EdgeInsets.fromLTRB(20, 8, 8, 8),
+                    child: Text("Color:",
+                        style: TextStyle(
+                            color: Colors.red, fontWeight: FontWeight.bold))),
+                Padding(
                   padding: const EdgeInsets.all(4.0),
-                  child: Text(cartProductColor, style: TextStyle(fontStyle: FontStyle.italic),),
+                  child: Text(
+                    cartProductColor,
+                    style: TextStyle(fontStyle: FontStyle.italic),
+                  ),
                 ),
               ],
             ),
-
             Row(
               children: [
                 Padding(
                   padding: const EdgeInsets.all(0),
-                  child: Text("Price:", style: TextStyle(color: Colors.red, fontWeight: FontWeight.bold)),
+                  child: Text("Price:",
+                      style: TextStyle(
+                          color: Colors.red, fontWeight: FontWeight.bold)),
                 ),
                 Padding(
                   padding: const EdgeInsets.all(8),
-                  child: Text("₹"+"${cartProductPrice}", style: TextStyle(fontStyle: FontStyle.italic)),
+                  child: Text("₹" + "${cartProductPrice}",
+                      style: TextStyle(fontStyle: FontStyle.italic)),
                 ),
               ],
             ),
           ],
         ),
-
       ),
     );
   }
 }
-

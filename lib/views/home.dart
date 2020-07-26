@@ -12,7 +12,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-
   final GoogleSignIn googleSignIn = new GoogleSignIn();
   final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
 
@@ -54,7 +53,8 @@ class _HomePageState extends State<HomePage> {
               color: Colors.white,
             ),
             onPressed: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context)=> Cart()));
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => Cart()));
             },
           )
         ],
@@ -77,8 +77,7 @@ class _HomePageState extends State<HomePage> {
               decoration: new BoxDecoration(color: Colors.redAccent),
             ),
             InkWell(
-              onTap: () {
-              },
+              onTap: () {},
               child: ListTile(
                 title: Text("Home Page"),
                 leading: Icon(
@@ -109,7 +108,8 @@ class _HomePageState extends State<HomePage> {
             ),
             InkWell(
               onTap: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context)=> Cart()));
+                Navigator.push(
+                    context, MaterialPageRoute(builder: (context) => Cart()));
               },
               child: ListTile(
                 title: Text("Shopping Cart"),
