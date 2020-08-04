@@ -1,5 +1,7 @@
+import 'package:bookexchange/model/product_model.dart';
 import 'package:bookexchange/views/product_details.dart';
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Products extends StatefulWidget {
   @override
@@ -7,7 +9,11 @@ class Products extends StatefulWidget {
 }
 
 class _ProductsState extends State<Products> {
-  var productList = [
+
+  Firestore _firestore = Firestore.instance;
+  List<Product> products = <Product>[];
+
+/*  var productList = [
     {
       "name": "Engineering",
       "picture": "images/categories/engineering.png",
@@ -44,24 +50,53 @@ class _ProductsState extends State<Products> {
       "oldPrice": 120,
       "price": 100,
     },
-  ];
+  ];*/
+
+  @override
+  void initState() {
+    getProductsFromFirebase();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     return GridView.builder(
-        itemCount: productList.length,
+        itemCount: products.length,
         gridDelegate:
             new SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
         itemBuilder: (BuildContext context, int index) {
           return SingleProduct(
-            productName: productList[index]["name"],
-            productPicture: productList[index]["picture"],
-            productOldPrice: productList[index]["oldPrice"],
-            productPrice: productList[index]["price"],
+            productName: products[index].Brand,
+            productPicture: products[index].Category,
+            // productOldPrice: products[index]["Brand"],
+            productPrice: products[index],
           );
         });
   }
-}
+
+  void getProductsFromFirebase() async {
+      List<Product> data = await getProducts();
+      print("ItemCount "+data.length.toString());
+
+      setState(() {
+        products = data;
+        // categoriesDropDown = getCategoriesDropDown();
+       // productList = products[0].data["products"];
+      });
+    }
+
+  Future <List<Product>> getProducts()=>
+      _firestore.collection("products").getDocuments().then((snap) {
+
+        List<Product> list = [];
+
+       // snap.documents.map((e) => list.add(Product.fromSnapshot(e)));
+      //  snap.documents.forEach((f) => print('${f.data}}'));
+        snap.documents.forEach((f) =>  list.add(Product.fromSnapshot(f)));
+        return list;
+      });
+
+  }
 
 class SingleProduct extends StatelessWidget {
   final productName, productPicture, productOldPrice, productPrice;
