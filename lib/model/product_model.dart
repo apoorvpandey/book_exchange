@@ -5,16 +5,26 @@ class Product{
   static const String BRAND = 'Brand';
   static const String CATEGORY = 'Category';
   static const String PRICE = 'price';
+  static const String NAME = 'name';
 
  String _price;
  String _Category;
  String _Brand;
+ String _name;
+
+  String get name => _name;
+
+  set name(String value) {
+    _name = value;
+  }
 
   String get price => _price;
 
   String get Category => _Category;
 
   String get Brand => _Brand;
+
+
 
   set Brand(String value) {
     _Brand = value;
@@ -34,6 +44,7 @@ class Product{
     _price = data[PRICE];
     _Brand = data[BRAND];
     _Category = data[CATEGORY];
+    _name = data[NAME];
 
   }
 

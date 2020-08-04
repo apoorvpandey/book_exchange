@@ -66,10 +66,10 @@ class _ProductsState extends State<Products> {
             new SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
         itemBuilder: (BuildContext context, int index) {
           return SingleProduct(
-            productName: products[index].Brand,
+            productName: products[index].name,
             productPicture: products[index].Category,
             // productOldPrice: products[index]["Brand"],
-            productPrice: products[index],
+            productPrice: products[index].price,
           );
         });
   }
