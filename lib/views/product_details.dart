@@ -6,11 +6,13 @@ class ProductDetails extends StatefulWidget {
   final productDetailsNewPrice;
   final productDetailsOldPrice;
   final productDetailsPicture;
+  final productDetailsBrand;
 
   ProductDetails(
       {this.productDetailsName,
       this.productDetailsNewPrice,
       this.productDetailsOldPrice,
+      this.productDetailsBrand,
       this.productDetailsPicture});
 
   @override
@@ -25,13 +27,13 @@ class _ProductDetailsState extends State<ProductDetails> {
         backgroundColor: Colors.red,
         title: Text("View Product Details"),
         actions: [
-          IconButton(
+         /* IconButton(
             icon: Icon(
               Icons.search,
               color: Colors.white,
             ),
             onPressed: () {},
-          ),
+          ),*/
         ],
       ),
       body: ListView(
@@ -41,7 +43,7 @@ class _ProductDetailsState extends State<ProductDetails> {
             child: GridTile(
               child: Container(
                 color: Colors.white,
-                child: Image.asset(widget.productDetailsPicture),
+                child: Image.network(widget.productDetailsPicture),
               ),
               footer: Container(
                 color: Colors.white70,
@@ -53,17 +55,10 @@ class _ProductDetailsState extends State<ProductDetails> {
                   title: Row(
                     children: [
                       Expanded(
-                          child: Text(
-                        "${widget.productDetailsOldPrice}",
-                        style: TextStyle(
-                            color: Colors.grey,
-                            decoration: TextDecoration.lineThrough),
-                      )),
-                      Expanded(
                         child: Text(
-                          "${widget.productDetailsNewPrice}",
+                          "₹${widget.productDetailsNewPrice}",
                           style: TextStyle(
-                              color: Colors.black, fontWeight: FontWeight.bold),
+                              color: Colors.red, fontWeight: FontWeight.bold),
                         ),
                       ),
                     ],
@@ -74,7 +69,7 @@ class _ProductDetailsState extends State<ProductDetails> {
           ),
           Row(
             children: [
-              Expanded(
+              /*Expanded(
                 child: MaterialButton(
                   onPressed: () {
                     showDialog(
@@ -103,8 +98,8 @@ class _ProductDetailsState extends State<ProductDetails> {
                     ],
                   ),
                 ),
-              ),
-              Expanded(
+              ),*/
+              /*Expanded(
                 child: MaterialButton(
                   onPressed: () {
                     showDialog(
@@ -133,8 +128,8 @@ class _ProductDetailsState extends State<ProductDetails> {
                     ],
                   ),
                 ),
-              ),
-              Expanded(
+              ),*/
+              /*Expanded(
                 child: MaterialButton(
                   onPressed: () {
                     showDialog(
@@ -163,26 +158,30 @@ class _ProductDetailsState extends State<ProductDetails> {
                     ],
                   ),
                 ),
-              ),
+              ),*/
             ],
           ),
           Row(
             children: [
               Expanded(
-                child: MaterialButton(
-                    onPressed: () {},
-                    color: Colors.red,
-                    textColor: Colors.white,
-                    child: Text("Buy now")),
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(16, 8, 16, 8
+                  ),
+                  child: MaterialButton(
+                      onPressed: () {},
+                      color: Colors.red,
+                      textColor: Colors.white,
+                      child: Text("Buy now")),
+                ),
               ),
-              IconButton(
+              /*IconButton(
                   icon: Icon(Icons.add_shopping_cart),
                   color: Colors.red,
                   onPressed: () {}),
               IconButton(
                   icon: Icon(Icons.favorite_border),
                   color: Colors.red,
-                  onPressed: () {}),
+                  onPressed: () {}),*/
             ],
           ),
           Divider(color: Colors.grey),
@@ -218,24 +217,24 @@ class _ProductDetailsState extends State<ProductDetails> {
               ),
               Padding(
                 padding: EdgeInsets.all(5),
-                child: Text("Brand X"),
+                child: Text(widget.productDetailsBrand),
               )
             ],
           ),
-          Divider(),
+          /*Divider(),
           Text("Similar products"),
           Padding(padding: EdgeInsets.all(5)),
           Container(
             height: 360,
             child: SimilarProducts(),
-          )
+          )*/
         ],
       ),
     );
   }
 }
 
-class SimilarProducts extends StatefulWidget {
+/*class SimilarProducts extends StatefulWidget {
   @override
   _SimilarProductsState createState() => _SimilarProductsState();
 }
@@ -290,12 +289,12 @@ class _SimilarProductsState extends State<SimilarProducts> {
           return SimilarSingleProduct(
             productName: productList[index]["name"],
             productPicture: productList[index]["picture"],
-            productOldPrice: productList[index]["oldPrice"],
+//            productOldPrice: productList[index]["oldPrice"],
             productPrice: productList[index]["price"],
           );
         });
   }
-}
+}*/
 
 class SimilarSingleProduct extends StatelessWidget {
   final productName, productPicture, productOldPrice, productPrice;

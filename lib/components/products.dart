@@ -13,48 +13,10 @@ class _ProductsState extends State<Products> {
   Firestore _firestore = Firestore.instance;
   List<Product> products = <Product>[];
 
-/*  var productList = [
-    {
-      "name": "Engineering",
-      "picture": "images/categories/engineering.png",
-      "oldPrice": 120,
-      "price": 100,
-    },
-    {
-      "name": "Bodybuilding",
-      "picture": "images/categories/bodybuilding.png",
-      "oldPrice": 120,
-      "price": 100,
-    },
-    {
-      "name": "Security",
-      "picture": "images/categories/security.png",
-      "oldPrice": 120,
-      "price": 100,
-    },
-    {
-      "name": "Influencing",
-      "picture": "images/categories/influencing.png",
-      "oldPrice": 120,
-      "price": 100,
-    },
-    {
-      "name": "Electronics",
-      "picture": "images/categories/electronics.png",
-      "oldPrice": 120,
-      "price": 100,
-    },
-    {
-      "name": "Cloud Computing",
-      "picture": "assets/images/categories/cloud.png",
-      "oldPrice": 120,
-      "price": 100,
-    },
-  ];*/
-
   @override
   void initState() {
     getProductsFromFirebase();
+    getImageUrlFromFirebase();
     super.initState();
   }
 
@@ -67,22 +29,35 @@ class _ProductsState extends State<Products> {
         itemBuilder: (BuildContext context, int index) {
           return SingleProduct(
             productName: products[index].name,
-            productPicture: products[index].Category,
-            // productOldPrice: products[index]["Brand"],
+            productPicture: products[index].imageUrl[0],
             productPrice: products[index].price,
+            productBrand: products[index].Brand,
           );
         });
   }
 
+  void getImageUrlFromFirebase() async{
+    var documents =
+        (await Firestore.instance.collection('products').getDocuments())
+            .documents;
+    print(documents[0].data['imageUrl'].length);
+
+
+  }
+
   void getProductsFromFirebase() async {
       List<Product> data = await getProducts();
-      print("ItemCount "+data.length.toString());
+//      print("ItemCount "+data.length.toString());
+
+
 
       setState(() {
         products = data;
         // categoriesDropDown = getCategoriesDropDown();
        // productList = products[0].data["products"];
       });
+
+
     }
 
   Future <List<Product>> getProducts()=>
@@ -94,17 +69,22 @@ class _ProductsState extends State<Products> {
       //  snap.documents.forEach((f) => print('${f.data}}'));
         snap.documents.forEach((f) =>  list.add(Product.fromSnapshot(f)));
         return list;
+
+
+
       });
+
 
   }
 
 class SingleProduct extends StatelessWidget {
-  final productName, productPicture, productOldPrice, productPrice;
+  final productName, productPicture, productOldPrice, productPrice, productBrand;
 
   SingleProduct(
       {this.productName,
       this.productOldPrice,
       this.productPicture,
+      this.productBrand,
       this.productPrice});
 
   @override
@@ -121,6 +101,7 @@ class SingleProduct extends StatelessWidget {
                           productDetailsNewPrice: productPrice,
                           productDetailsOldPrice: productOldPrice,
                           productDetailsPicture: productPicture,
+                          productDetailsBrand: productBrand,
                         ))),
                 child: GridTile(
                     footer: Container(
@@ -142,10 +123,11 @@ class SingleProduct extends StatelessWidget {
                             )
                           ],
                         )),
-                    child: Image.asset(
+                    child: Image.network(
                       productPicture,
                       fit: BoxFit.cover,
-                    )),
+                    )
+                ),
               ),
             )),
       ),

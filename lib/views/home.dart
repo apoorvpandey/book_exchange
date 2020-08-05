@@ -156,19 +156,19 @@ class _HomePageState extends State<HomePage> {
       body: new ListView(
         children: [
           imageCarousel,
+//          new Padding(
+//            padding: const EdgeInsets.all(8),
+//            child: Text("Categories"),
+//          ),
+//          HorizontalListView(),
           new Padding(
-            padding: const EdgeInsets.all(8),
-            child: Text("Categories"),
-          ),
-          HorizontalListView(),
-          new Padding(
-            padding: const EdgeInsets.all(20),
-            child: Text("Recent products"),
+            padding: const EdgeInsets.fromLTRB(0, 4, 0, 4),
+            child: Text("Available products"),
           ),
           Container(
-            height: 320,
+            height: 420,
             child: Products(),
-          )
+          ),
         ],
       ),
     );

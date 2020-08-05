@@ -11,6 +11,14 @@ class Product{
  String _Category;
  String _Brand;
  String _name;
+  List _imageUrl = [];
+
+
+  List get imageUrl => _imageUrl;
+
+  set imageUrl(List value) {
+    _imageUrl = value;
+  }
 
   String get name => _name;
 
@@ -45,7 +53,8 @@ class Product{
     _Brand = data[BRAND];
     _Category = data[CATEGORY];
     _name = data[NAME];
-
+    _imageUrl =data['imageUrl'];
   }
+
 
 }
