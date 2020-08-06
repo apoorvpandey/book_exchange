@@ -1,12 +1,12 @@
 import 'package:bookexchange/views/signup.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'home.dart';
 import 'package:flutter_flexible_toast/flutter_flexible_toast.dart';
+import 'package:bookexchange/database/common.dart';
 
 class Login extends StatefulWidget {
   @override
@@ -18,10 +18,11 @@ class _LoginState extends State<Login> {
   final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
   TextEditingController _emailTextController = new TextEditingController();
   TextEditingController _passwordTextController = new TextEditingController();
-  SharedPreferences preferences;
   final _formKey = GlobalKey<FormState>();
   bool loading = false;
   bool isLoggedIn = false;
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final GoogleSignIn _googleSignIn = GoogleSignIn();
 
   @override
   void initState() {
@@ -33,11 +34,15 @@ class _LoginState extends State<Login> {
     setState(() {
       loading = true;
     });
-    preferences = await SharedPreferences.getInstance();
     isLoggedIn = await googleSignIn.isSignedIn();
+
     FirebaseUser user = await firebaseAuth.currentUser().then((user){
       if(user!=null)
         {
+
+          Common.userProfilePicture = user.photoUrl;
+          Common.userName = user.displayName;
+          Common.userEmail = user.email;
           setState(() => isLoggedIn = true);
         }
     });
@@ -52,19 +57,25 @@ class _LoginState extends State<Login> {
   }
 
   Future handleSign() async {
-    preferences = await SharedPreferences.getInstance();
     setState(() {
       loading = true;
     });
 
     GoogleSignInAccount googleUser = await googleSignIn.signIn();
-    GoogleSignInAuthentication googleSignInAuthentication =
-        await googleUser.authentication;
+    GoogleSignInAuthentication googleSignInAuthentication =  await googleUser.authentication;
 
     AuthCredential credential = GoogleAuthProvider.getCredential(
         idToken: googleSignInAuthentication.idToken,
         accessToken: googleSignInAuthentication.accessToken);
+
+    AuthResult result = (await _auth .signInWithCredential(credential));
+
     if (credential != null) {
+      print("userName"+googleUser.displayName);
+      print("userPhoto"+googleUser.photoUrl);
+      Common.userName = googleUser.displayName;
+      Common.userEmail = googleUser.email;
+      Common.userProfilePicture = googleUser.photoUrl;
       final QuerySnapshot result = await Firestore.instance
           .collection("Users")
           .where("ID", isEqualTo: googleUser.id)
@@ -75,15 +86,16 @@ class _LoginState extends State<Login> {
           "ID": googleUser.id,
           "userName": googleUser.displayName,
           "profilePicture": googleUser.photoUrl,
+          "profilePicture": googleUser.photoUrl,
         });
-        await preferences.setString("ID", googleUser.id);
-        await preferences.setString("userName", googleUser.displayName);
-        await preferences.setString("profilePicture", googleUser.photoUrl);
+
+        Common.userProfilePicture = googleUser.photoUrl;
+        Common.userName = googleUser.displayName;
+        Common.userEmail = googleUser.email;
+
+
       } else {
-        await preferences.setString("ID", documents[0]["ID"]);
-        await preferences.setString("userName", documents[0]["userName"]);
-        await preferences.setString(
-            "profilePicture", documents[0]["profilePicture"]);
+
       }
 
       FlutterFlexibleToast.showToast(message: "Sign In Successful");
@@ -96,6 +108,15 @@ class _LoginState extends State<Login> {
     } else {
       FlutterFlexibleToast.showToast(message: "Sign In Failed");
     }
+  }
+
+  Future<void> googleSignOut() async {
+    await _auth.signOut().then((value){
+      _googleSignIn.signOut();
+      setState(() {
+        isLoggedIn = false;
+      });
+    });
   }
 
   @override

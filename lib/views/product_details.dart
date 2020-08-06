@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_flexible_toast/flutter_flexible_toast.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class ProductDetails extends StatefulWidget {
   final productDetailsName;
@@ -20,6 +22,12 @@ class ProductDetails extends StatefulWidget {
 }
 
 class _ProductDetailsState extends State<ProductDetails> {
+
+  TextEditingController phoneNumberController = TextEditingController();
+  TextEditingController nameTextControler = TextEditingController();
+  GlobalKey<FormState> _phoneNumberFormKey = GlobalKey();
+  GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,7 +35,7 @@ class _ProductDetailsState extends State<ProductDetails> {
         backgroundColor: Colors.red,
         title: Text("View Product Details"),
         actions: [
-         /* IconButton(
+          /* IconButton(
             icon: Icon(
               Icons.search,
               color: Colors.white,
@@ -165,13 +173,14 @@ class _ProductDetailsState extends State<ProductDetails> {
             children: [
               Expanded(
                 child: Padding(
-                  padding: const EdgeInsets.fromLTRB(16, 8, 16, 8
-                  ),
+                  padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
                   child: MaterialButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        uploadRequest();
+                      },
                       color: Colors.red,
                       textColor: Colors.white,
-                      child: Text("Buy now")),
+                      child: Text("Request this")),
                 ),
               ),
               /*IconButton(
@@ -231,6 +240,73 @@ class _ProductDetailsState extends State<ProductDetails> {
         ],
       ),
     );
+  }
+
+  void uploadRequest() {
+    var alert = new AlertDialog(
+      content: Form(
+        key: _formKey,
+        child: Column(
+          children: <Widget>[
+            TextFormField(
+              keyboardType: TextInputType.number,
+              maxLength: 10,
+              controller: phoneNumberController,
+              validator: (value){
+                if(value.isEmpty){
+                  return "Mobile number can not be empty";
+                }
+                else if(value.length<10)
+                  {
+                    return "Mobile number must be at least 10 digits";
+                  }
+                else if(value.length>10)
+                  {
+                    return "Mobile number can not be more than 10 digits";
+                  }
+              },
+              decoration: InputDecoration(
+                  hintText: "Enter your mobile number"
+              ),
+            ),
+            TextFormField(
+              keyboardType: TextInputType.text,
+              maxLength: 27,
+              controller: nameTextControler,
+              validator: (value){
+                if(value.isEmpty){
+                  return "Name can not be empty";
+                }
+                else if(value.length>27)
+                {
+                  return "Name can not be more than 27 characters";
+                }
+              },
+              decoration: InputDecoration(
+                  hintText: "Enter your Name"
+              ),
+            ),
+          ],
+        ),
+      ),
+      actions: <Widget>[
+        FlatButton(onPressed: (){
+          if(_formKey.currentState.validate()){
+            FlutterFlexibleToast.showToast(message: "Your request is sent!");
+            Navigator.pop(context);
+           // _categoryService.createCategory(categoryController.text);
+          }
+
+        }, child: Text('ADD')
+        ),
+        FlatButton(onPressed: (){
+          Navigator.pop(context);
+        }, child: Text('CANCEL')),
+
+      ],
+    );
+
+    showDialog(context: context, builder: (_) => alert);
   }
 }
 

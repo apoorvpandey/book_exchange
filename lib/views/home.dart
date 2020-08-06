@@ -1,10 +1,11 @@
-import 'package:bookexchange/components/horizontal_list_view.dart';
 import 'package:bookexchange/components/products.dart';
+import 'package:bookexchange/database/common.dart';
+import 'package:bookexchange/views/login.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_pro/carousel_pro.dart';
-import 'package:bookexchange/views/cart.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -14,6 +15,9 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final GoogleSignIn googleSignIn = new GoogleSignIn();
   final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final GoogleSignIn _googleSignIn = GoogleSignIn();
+  bool isLoggedIn = false;
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +44,7 @@ class _HomePageState extends State<HomePage> {
         backgroundColor: Colors.red,
         title: Text("Homepage"),
         actions: [
-          IconButton(
+          /*IconButton(
             icon: Icon(
               Icons.search,
               color: Colors.white,
@@ -56,28 +60,28 @@ class _HomePageState extends State<HomePage> {
               Navigator.push(
                   context, MaterialPageRoute(builder: (context) => Cart()));
             },
-          )
+          )*/
         ],
       ),
       drawer: Drawer(
         child: ListView(
           children: <Widget>[
             new UserAccountsDrawerHeader(
-              accountName: Text("Apoorv Pandey"),
-              accountEmail: Text("apoorvpandey111@gmail.com"),
+              accountName: Text(Common.userName),
+              accountEmail: Text(Common.userEmail),
               currentAccountPicture: GestureDetector(
                 child: new CircleAvatar(
-                  backgroundColor: Colors.grey,
-                  child: Icon(
-                    Icons.person,
-                    color: Colors.white,
+                  backgroundImage: NetworkImage(
+                    Common.userProfilePicture
                   ),
                 ),
               ),
               decoration: new BoxDecoration(color: Colors.redAccent),
             ),
             InkWell(
-              onTap: () {},
+              onTap: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context)=>HomePage()));
+              },
               child: ListTile(
                 title: Text("Home Page"),
                 leading: Icon(
@@ -99,14 +103,14 @@ class _HomePageState extends State<HomePage> {
             InkWell(
               onTap: () {},
               child: ListTile(
-                title: Text("My Orders"),
+                title: Text("My Requests"),
                 leading: Icon(
                   Icons.shopping_basket,
                   color: Colors.red,
                 ),
               ),
             ),
-            InkWell(
+            /*InkWell(
               onTap: () {
                 Navigator.push(
                     context, MaterialPageRoute(builder: (context) => Cart()));
@@ -118,8 +122,8 @@ class _HomePageState extends State<HomePage> {
                   color: Colors.red,
                 ),
               ),
-            ),
-            InkWell(
+            ),*/
+            /*InkWell(
               onTap: () {},
               child: ListTile(
                 title: Text("Favorites"),
@@ -128,9 +132,9 @@ class _HomePageState extends State<HomePage> {
                   color: Colors.red,
                 ),
               ),
-            ),
+            ),*/
             Divider(),
-            InkWell(
+           /* InkWell(
               onTap: () {},
               child: ListTile(
                 title: Text("Settings"),
@@ -139,7 +143,7 @@ class _HomePageState extends State<HomePage> {
                   color: Colors.black54,
                 ),
               ),
-            ),
+            ),*/
             InkWell(
               onTap: () {},
               child: ListTile(
@@ -147,6 +151,18 @@ class _HomePageState extends State<HomePage> {
                 leading: Icon(
                   Icons.info,
                   color: Colors.blue,
+                ),
+              ),
+            ),
+            InkWell(
+              onTap: () {
+                googleSignOut();
+              },
+              child: ListTile(
+                title: Text("Logout"),
+                leading: Icon(
+                  Icons.exit_to_app,
+                  color: Color(0xffcc0605),
                 ),
               ),
             ),
@@ -173,4 +189,16 @@ class _HomePageState extends State<HomePage> {
       ),
     );
   }
+
+
+  Future<void> googleSignOut() async {
+    await _auth.signOut().then((value){
+      _googleSignIn.signOut();
+      setState(() {
+        isLoggedIn = false;
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>Login()));
+      });
+    });
+  }
+
 }
