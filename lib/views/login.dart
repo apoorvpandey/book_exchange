@@ -5,8 +5,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'home.dart';
-import 'package:flutter_flexible_toast/flutter_flexible_toast.dart';
 import 'package:bookexchange/database/common.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class Login extends StatefulWidget {
   @override
@@ -39,12 +39,13 @@ class _LoginState extends State<Login> {
     FirebaseUser user = await firebaseAuth.currentUser().then((user){
       if(user!=null)
         {
-
+          Common.userID = user.uid;
           Common.userProfilePicture = user.photoUrl;
           Common.userName = user.displayName;
           Common.userEmail = user.email;
           setState(() => isLoggedIn = true);
         }
+      return null;
     });
     if (isLoggedIn) {
       Navigator.pushReplacement(
@@ -68,37 +69,52 @@ class _LoginState extends State<Login> {
         idToken: googleSignInAuthentication.idToken,
         accessToken: googleSignInAuthentication.accessToken);
 
-    AuthResult result = (await _auth .signInWithCredential(credential));
+    AuthResult authResults = (await _auth .signInWithCredential(credential));
 
-    if (credential != null) {
-      print("userName"+googleUser.displayName);
-      print("userPhoto"+googleUser.photoUrl);
-      Common.userName = googleUser.displayName;
-      Common.userEmail = googleUser.email;
-      Common.userProfilePicture = googleUser.photoUrl;
+
+
+    if (authResults != null) {
+
+      print("userName"+authResults.user.displayName);
+      print("userPhoto"+authResults.user.photoUrl);
+      Common.userName = authResults.user.displayName;
+      Common.userEmail = authResults.user.email;
+      Common.userProfilePicture = authResults.user.photoUrl;
+      print("UserId"+authResults.user.uid);
       final QuerySnapshot result = await Firestore.instance
           .collection("Users")
-          .where("ID", isEqualTo: googleUser.id)
+          .where("ID", isEqualTo: authResults.user.uid)
           .getDocuments();
       final List<DocumentSnapshot> documents = result.documents;
       if (documents.length == 0) {
-        Firestore.instance.collection("Users").document(googleUser.id).setData({
-          "ID": googleUser.id,
+        print("UserId"+googleUser.id);
+        Firestore.instance.collection("Users").document(authResults.user.uid).setData({
+          "ID": authResults.user.uid,
           "userName": googleUser.displayName,
-          "profilePicture": googleUser.photoUrl,
           "profilePicture": googleUser.photoUrl,
         });
 
-        Common.userProfilePicture = googleUser.photoUrl;
-        Common.userName = googleUser.displayName;
-        Common.userEmail = googleUser.email;
+        Common.userProfilePicture = authResults.user.photoUrl;
+        Common.userName = authResults.user.displayName;
+        Common.userEmail = authResults.user.email;
+        Common.userID = authResults.user.uid;
 
-
-      } else {
 
       }
+      else
+        {
 
-      FlutterFlexibleToast.showToast(message: "Sign In Successful");
+        }
+
+      Fluttertoast.showToast(
+          msg: "Sign in successful",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.black,
+          textColor: Colors.white,
+          fontSize: 16.0
+      );
 
       Navigator.pushReplacement(
           context, MaterialPageRoute(builder: (context) => HomePage()));
@@ -106,7 +122,15 @@ class _LoginState extends State<Login> {
         loading = false;
       });
     } else {
-      FlutterFlexibleToast.showToast(message: "Sign In Failed");
+      Fluttertoast.showToast(
+          msg: "Sign in failed",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.black,
+          textColor: Colors.white,
+          fontSize: 16.0
+      );
     }
   }
 

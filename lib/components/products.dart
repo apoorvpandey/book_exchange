@@ -16,7 +16,6 @@ class _ProductsState extends State<Products> {
   @override
   void initState() {
     getProductsFromFirebase();
-    getImageUrlFromFirebase();
     super.initState();
   }
 
@@ -36,20 +35,10 @@ class _ProductsState extends State<Products> {
         });
   }
 
-  void getImageUrlFromFirebase() async{
-    var documents =
-        (await Firestore.instance.collection('products').getDocuments())
-            .documents;
-    print(documents[0].data['imageUrl'].length);
-
-
-  }
 
   void getProductsFromFirebase() async {
       List<Product> data = await getProducts();
-//      print("ItemCount "+data.length.toString());
-
-
+     print("ItemCount "+data.length.toString());
 
       setState(() {
         products = data;

@@ -1,7 +1,7 @@
 import 'package:bookexchange/components/products.dart';
 import 'package:bookexchange/database/common.dart';
 import 'package:bookexchange/views/login.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:bookexchange/views/user_account.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -43,25 +43,7 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         backgroundColor: Colors.red,
         title: Text("Homepage"),
-        actions: [
-          /*IconButton(
-            icon: Icon(
-              Icons.search,
-              color: Colors.white,
-            ),
-            onPressed: () {},
-          ),
-          IconButton(
-            icon: Icon(
-              Icons.shopping_cart,
-              color: Colors.white,
-            ),
-            onPressed: () {
-              Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => Cart()));
-            },
-          )*/
-        ],
+        actions: [],
       ),
       drawer: Drawer(
         child: ListView(
@@ -71,16 +53,15 @@ class _HomePageState extends State<HomePage> {
               accountEmail: Text(Common.userEmail),
               currentAccountPicture: GestureDetector(
                 child: new CircleAvatar(
-                  backgroundImage: NetworkImage(
-                    Common.userProfilePicture
-                  ),
+                  backgroundImage: NetworkImage(Common.userProfilePicture),
                 ),
               ),
               decoration: new BoxDecoration(color: Colors.redAccent),
             ),
             InkWell(
               onTap: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context)=>HomePage()));
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => HomePage()));
               },
               child: ListTile(
                 title: Text("Home Page"),
@@ -91,7 +72,10 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
             InkWell(
-              onTap: () {},
+              onTap: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => ProfilePage()));
+              },
               child: ListTile(
                 title: Text("My Account"),
                 leading: Icon(
@@ -134,7 +118,7 @@ class _HomePageState extends State<HomePage> {
               ),
             ),*/
             Divider(),
-           /* InkWell(
+            /* InkWell(
               onTap: () {},
               child: ListTile(
                 title: Text("Settings"),
@@ -172,11 +156,6 @@ class _HomePageState extends State<HomePage> {
       body: new ListView(
         children: [
           imageCarousel,
-//          new Padding(
-//            padding: const EdgeInsets.all(8),
-//            child: Text("Categories"),
-//          ),
-//          HorizontalListView(),
           new Padding(
             padding: const EdgeInsets.fromLTRB(0, 4, 0, 4),
             child: Text("Available products"),
@@ -190,15 +169,14 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-
   Future<void> googleSignOut() async {
-    await _auth.signOut().then((value){
+    await _auth.signOut().then((value) {
       _googleSignIn.signOut();
       setState(() {
         isLoggedIn = false;
-        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>Login()));
+        Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (context) => Login()));
       });
     });
   }
-
 }

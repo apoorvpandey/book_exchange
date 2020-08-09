@@ -1,7 +1,10 @@
+import 'package:bookexchange/database/common.dart';
+import 'package:bookexchange/views/user_account.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_flexible_toast/flutter_flexible_toast.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:uuid/uuid.dart';
 
 class ProductDetails extends StatefulWidget {
   final productDetailsName;
@@ -23,10 +26,9 @@ class ProductDetails extends StatefulWidget {
 
 class _ProductDetailsState extends State<ProductDetails> {
 
-  TextEditingController phoneNumberController = TextEditingController();
-  TextEditingController nameTextControler = TextEditingController();
-  GlobalKey<FormState> _phoneNumberFormKey = GlobalKey();
-  GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  TextEditingController phoneNumberTextEditingController = TextEditingController();
+  TextEditingController nameTextEditingController = TextEditingController();
+  Firestore _firestore = Firestore.instance;
 
   @override
   Widget build(BuildContext context) {
@@ -77,96 +79,7 @@ class _ProductDetailsState extends State<ProductDetails> {
           ),
           Row(
             children: [
-              /*Expanded(
-                child: MaterialButton(
-                  onPressed: () {
-                    showDialog(
-                        context: context,
-                        builder: (context) {
-                          return new AlertDialog(
-                            title: Text("Size"),
-                            content: Text("Choose your desired size"),
-                            actions: [
-                              MaterialButton(
-                                onPressed: () {
-                                  Navigator.of(context).pop(context);
-                                },
-                                child: Text("Close"),
-                              )
-                            ],
-                          );
-                        });
-                  },
-                  color: Colors.white,
-                  textColor: Colors.black54,
-                  child: Row(
-                    children: [
-                      Expanded(child: Text("Size")),
-                      Expanded(child: Icon(Icons.arrow_drop_down)),
-                    ],
-                  ),
-                ),
-              ),*/
-              /*Expanded(
-                child: MaterialButton(
-                  onPressed: () {
-                    showDialog(
-                        context: context,
-                        builder: (context) {
-                          return new AlertDialog(
-                            title: Text("Color"),
-                            content: Text("Choose your desired color"),
-                            actions: [
-                              MaterialButton(
-                                onPressed: () {
-                                  Navigator.of(context).pop(context);
-                                },
-                                child: Text("Close"),
-                              )
-                            ],
-                          );
-                        });
-                  },
-                  color: Colors.white,
-                  textColor: Colors.black54,
-                  child: Row(
-                    children: [
-                      Expanded(child: Text("Color")),
-                      Expanded(child: Icon(Icons.arrow_drop_down)),
-                    ],
-                  ),
-                ),
-              ),*/
-              /*Expanded(
-                child: MaterialButton(
-                  onPressed: () {
-                    showDialog(
-                        context: context,
-                        builder: (context) {
-                          return new AlertDialog(
-                            title: Text("Quantity"),
-                            content: Text("Choose the quantity"),
-                            actions: [
-                              MaterialButton(
-                                onPressed: () {
-                                  Navigator.of(context).pop(context);
-                                },
-                                child: Text("Close"),
-                              )
-                            ],
-                          );
-                        });
-                  },
-                  color: Colors.white,
-                  textColor: Colors.black54,
-                  child: Row(
-                    children: [
-                      Expanded(child: Text("Qty")),
-                      Expanded(child: Icon(Icons.arrow_drop_down)),
-                    ],
-                  ),
-                ),
-              ),*/
+
             ],
           ),
           Row(
@@ -176,21 +89,24 @@ class _ProductDetailsState extends State<ProductDetails> {
                   padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
                   child: MaterialButton(
                       onPressed: () {
-                        uploadRequest();
+                        if(Common.mobileNumber != null && Common.address != null)
+                          {
+                            sendRequest(Common.userName, Common.userEmail, widget.productDetailsName, Common.mobileNumber);
+                          }
+                        else
+                          {
+                            Fluttertoast.showToast(
+                                backgroundColor: Colors.black,
+                                msg: "Complete your profile first!");
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => ProfilePage()));
+                          }
                       },
                       color: Colors.red,
                       textColor: Colors.white,
-                      child: Text("Request this")),
+                      child: Text("Request this")
+                  ),
                 ),
               ),
-              /*IconButton(
-                  icon: Icon(Icons.add_shopping_cart),
-                  color: Colors.red,
-                  onPressed: () {}),
-              IconButton(
-                  icon: Icon(Icons.favorite_border),
-                  color: Colors.red,
-                  onPressed: () {}),*/
             ],
           ),
           Divider(color: Colors.grey),
@@ -230,83 +146,33 @@ class _ProductDetailsState extends State<ProductDetails> {
               )
             ],
           ),
-          /*Divider(),
-          Text("Similar products"),
-          Padding(padding: EdgeInsets.all(5)),
-          Container(
-            height: 360,
-            child: SimilarProducts(),
-          )*/
         ],
       ),
     );
   }
 
-  void uploadRequest() {
-    var alert = new AlertDialog(
-      content: Form(
-        key: _formKey,
-        child: Column(
-          children: <Widget>[
-            TextFormField(
-              keyboardType: TextInputType.number,
-              maxLength: 10,
-              controller: phoneNumberController,
-              validator: (value){
-                if(value.isEmpty){
-                  return "Mobile number can not be empty";
-                }
-                else if(value.length<10)
-                  {
-                    return "Mobile number must be at least 10 digits";
-                  }
-                else if(value.length>10)
-                  {
-                    return "Mobile number can not be more than 10 digits";
-                  }
-              },
-              decoration: InputDecoration(
-                  hintText: "Enter your mobile number"
-              ),
-            ),
-            TextFormField(
-              keyboardType: TextInputType.text,
-              maxLength: 27,
-              controller: nameTextControler,
-              validator: (value){
-                if(value.isEmpty){
-                  return "Name can not be empty";
-                }
-                else if(value.length>27)
-                {
-                  return "Name can not be more than 27 characters";
-                }
-              },
-              decoration: InputDecoration(
-                  hintText: "Enter your Name"
-              ),
-            ),
-          ],
-        ),
-      ),
-      actions: <Widget>[
-        FlatButton(onPressed: (){
-          if(_formKey.currentState.validate()){
-            FlutterFlexibleToast.showToast(message: "Your request is sent!");
-            Navigator.pop(context);
-           // _categoryService.createCategory(categoryController.text);
-          }
+  void sendRequest(String name, String userEmail, String nameOfTheProduct, String mobileNumber){
+    var id = Uuid();
+    String requestId = id.v1();
 
-        }, child: Text('ADD')
-        ),
-        FlatButton(onPressed: (){
-          Navigator.pop(context);
-        }, child: Text('CANCEL')),
+    _firestore.collection("requests").document(requestId).setData(
+        {
+          "UserName": name,
+          "UserEmail": userEmail,
+          "NameOfTheRequestedProduct": nameOfTheProduct,
+          "MobileNumber": mobileNumber,
+        }
+        );
 
-      ],
+    Fluttertoast.showToast(
+        msg: "Your request has been sent! Don't send duplicate requests by clicking again and again",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.black,
+        textColor: Colors.white,
+        fontSize: 16.0
     );
-
-    showDialog(context: context, builder: (_) => alert);
   }
 }
 
