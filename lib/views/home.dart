@@ -1,7 +1,9 @@
 import 'package:bookexchange/components/products.dart';
 import 'package:bookexchange/database/common.dart';
+import 'package:bookexchange/model/user_model.dart';
 import 'package:bookexchange/views/login.dart';
 import 'package:bookexchange/views/user_account.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -17,6 +19,7 @@ class _HomePageState extends State<HomePage> {
   final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final GoogleSignIn _googleSignIn = GoogleSignIn();
+  Firestore _firestore = Firestore.instance;
   bool isLoggedIn = false;
 
   @override
@@ -179,4 +182,30 @@ class _HomePageState extends State<HomePage> {
       });
     });
   }
+@override
+  void initState() {
+  getUserDetailsFromFirebase();
+    super.initState();
+  }
+
+  void getUserDetailsFromFirebase() async {
+    UserModel userModel = await getUserDetails();
+
+    Common.address = userModel.address;
+    Common.mobileNumber = userModel.mobileNumber;
+
+   /* setState(() {
+      _addressTextEditingController =
+          TextEditingController(text: userModel.address);
+      _mobileNumberTextEditingController =
+          TextEditingController(text: userModel.mobileNumber);
+    });*/
+  }
+
+  Future<UserModel> getUserDetails() => _firestore
+      .collection("Users")
+      .document(Common.userID)
+      .get()
+      .then((value) => UserModel.fromSnapshot(value));
+
 }

@@ -90,16 +90,15 @@ class _LoginState extends State<Login> {
         print("UserId"+googleUser.id);
         Firestore.instance.collection("Users").document(authResults.user.uid).setData({
           "ID": authResults.user.uid,
-          "userName": googleUser.displayName,
-          "profilePicture": googleUser.photoUrl,
+          "userName": authResults.user.displayName,
+          "profilePicture": authResults.user.photoUrl,
+          "userEmail": authResults.user.email,
         });
 
-        Common.userProfilePicture = authResults.user.photoUrl;
-        Common.userName = authResults.user.displayName;
-        Common.userEmail = authResults.user.email;
         Common.userID = authResults.user.uid;
-
-
+        Common.userName = authResults.user.displayName;
+        Common.userProfilePicture = authResults.user.photoUrl;
+        Common.userEmail = authResults.user.email;
       }
       else
         {

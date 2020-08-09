@@ -17,19 +17,17 @@ class _ProfilePageState extends State<ProfilePage> {
       new TextEditingController();
   TextEditingController _addressTextEditingController =
       new TextEditingController();
-  Firestore _firestore = Firestore.instance;
-
-
 
   @override
   void initState() {
-    getUserDetailsFromFirebase();
+
+    _mobileNumberTextEditingController = TextEditingController(text: (Common.mobileNumber==null ? "" : Common.mobileNumber));
+    _addressTextEditingController = TextEditingController(text: (Common.address==null ? "" : Common.address));
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    print("SetStateCalled");
     return Scaffold(
       appBar: AppBar(
         title: Text("View Profile"),
@@ -59,7 +57,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             border: Border.all(color: Colors.black38)),
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
-                          child: Text(Common.userName,
+                          child: Text((Common.userName == null ? "" : Common.userName),
                               style: TextStyle(
                                   fontSize: 16, color: Color(0xFFA9A9A9))),
                         ),
@@ -74,7 +72,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Text(
-                            Common.userEmail,
+                            (Common.userEmail == null ? "" : Common.userEmail),
                             style: TextStyle(
                                 fontSize: 16, color: Color(0xFFA9A9A9)),
                           ),
@@ -166,7 +164,6 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   void updateProfile() {
-    Firestore _firestore = Firestore.instance;
 
     Firestore.instance.collection("Users").document(Common.userID).setData({
       "ID": Common.userID,
@@ -176,45 +173,29 @@ class _ProfilePageState extends State<ProfilePage> {
       "address": _addressTextEditingController.text,
     });
 
-    Common.mobileNumber = _mobileNumberTextEditingController.text;
-    Common.address = _addressTextEditingController.text;
+  /*  Common.mobileNumber = _mobileNumberTextEditingController.text;
+    Common.address = _addressTextEditingController.text;*/
 
     Fluttertoast.showToast(
         backgroundColor: Colors.black, msg: "Profile updated!");
-    Navigator.push(context, MaterialPageRoute(builder: (context)=>HomePage()));
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => HomePage()));
   }
 
-
-  void getUserDetailsFromFirebase() async {
-
-    UserModel  userModel =  await getUserDetails();
-
-
-  /*  print("userCount "+data.length.toString());
+ /* void getUserDetailsFromFirebase() async {
+    UserModel userModel = await getUserDetails();
 
     setState(() {
-      users = data;
-      // categoriesDropDown = getCategoriesDropDown();
-      // productList = products[0].data["products"];
-    });*/
-
-     setState(() {
-       _addressTextEditingController =TextEditingController(text: userModel.address);
-       _mobileNumberTextEditingController =TextEditingController(text: userModel.mobileNumber);
-       // categoriesDropDown = getCategoriesDropDown();
-       // productList = products[0].data["products"];
-     });
-
-
+      _addressTextEditingController =
+          TextEditingController(text: userModel.address);
+      _mobileNumberTextEditingController =
+          TextEditingController(text: userModel.mobileNumber);
+    });
   }
 
-  Future <UserModel> getUserDetails()=>
-      _firestore.collection("Users").document(Common.userID).get().then((value) =>
-
-         UserModel.fromSnapshot(value)
-
-      );
-
-
+  Future<UserModel> getUserDetails() => _firestore
+      .collection("Users")
+      .document(Common.userID)
+      .get()
+      .then((value) => UserModel.fromSnapshot(value));*/
 }
-

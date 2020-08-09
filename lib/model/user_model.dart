@@ -6,12 +6,20 @@ class UserModel{
   static const String ADDRESS = 'address';
   static const String MOBILENUMBER = 'mobileNumber';
   static const String PROFILEPICTURE = 'profilePicture';
+  static const String EMAILADDRESS = 'userEmail';
 
   String _UserName;
   String _ID;
   String _address;
   String _mobileNumber;
   String _profilePicture;
+  String _userEmail;
+
+  String get userEmail => _userEmail;
+
+  set userEmail(String value) {
+    _userEmail = value;
+  }
 
   String get UserName => _UserName;
 
@@ -50,6 +58,7 @@ class UserModel{
     _address = data[ADDRESS];
     _mobileNumber = data[MOBILENUMBER];
     _profilePicture =data[PROFILEPICTURE];
+    _userEmail =data[EMAILADDRESS];
   }
 
 }
