@@ -42,8 +42,7 @@ class _ProductsState extends State<Products> {
 
       setState(() {
         products = data;
-        // categoriesDropDown = getCategoriesDropDown();
-       // productList = products[0].data["products"];
+
       });
 
 
@@ -54,8 +53,6 @@ class _ProductsState extends State<Products> {
 
         List<Product> list = [];
 
-       // snap.documents.map((e) => list.add(Product.fromSnapshot(e)));
-      //  snap.documents.forEach((f) => print('${f.data}}'));
         snap.documents.forEach((f) =>  list.add(Product.fromSnapshot(f)));
         return list;
 

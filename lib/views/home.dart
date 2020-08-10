@@ -194,12 +194,7 @@ class _HomePageState extends State<HomePage> {
     Common.address = userModel.address;
     Common.mobileNumber = userModel.mobileNumber;
 
-   /* setState(() {
-      _addressTextEditingController =
-          TextEditingController(text: userModel.address);
-      _mobileNumberTextEditingController =
-          TextEditingController(text: userModel.mobileNumber);
-    });*/
+
   }
 
   Future<UserModel> getUserDetails() => _firestore

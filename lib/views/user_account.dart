@@ -173,8 +173,6 @@ class _ProfilePageState extends State<ProfilePage> {
       "address": _addressTextEditingController.text,
     });
 
-  /*  Common.mobileNumber = _mobileNumberTextEditingController.text;
-    Common.address = _addressTextEditingController.text;*/
 
     Fluttertoast.showToast(
         backgroundColor: Colors.black, msg: "Profile updated!");
@@ -182,20 +180,5 @@ class _ProfilePageState extends State<ProfilePage> {
         context, MaterialPageRoute(builder: (context) => HomePage()));
   }
 
- /* void getUserDetailsFromFirebase() async {
-    UserModel userModel = await getUserDetails();
 
-    setState(() {
-      _addressTextEditingController =
-          TextEditingController(text: userModel.address);
-      _mobileNumberTextEditingController =
-          TextEditingController(text: userModel.mobileNumber);
-    });
-  }
-
-  Future<UserModel> getUserDetails() => _firestore
-      .collection("Users")
-      .document(Common.userID)
-      .get()
-      .then((value) => UserModel.fromSnapshot(value));*/
 }
