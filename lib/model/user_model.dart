@@ -61,4 +61,5 @@ class UserModel{
     _userEmail =data[EMAILADDRESS];
   }
 
+
 }
