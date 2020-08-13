@@ -3,6 +3,7 @@ import 'package:bookexchange/database/common.dart';
 import 'package:bookexchange/model/user_model.dart';
 import 'package:bookexchange/views/login.dart';
 import 'package:bookexchange/views/user_account.dart';
+import 'package:bookexchange/views/user_requests.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -88,7 +89,9 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
             InkWell(
-              onTap: () {},
+              onTap: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) => UserRequests()));
+              },
               child: ListTile(
                 title: Text("My Requests"),
                 leading: Icon(
@@ -175,6 +178,11 @@ class _HomePageState extends State<HomePage> {
   Future<void> googleSignOut() async {
     await _auth.signOut().then((value) {
       _googleSignIn.signOut();
+      Common.userID == null;
+      Common.userName == null;
+      Common.mobileNumber == null;
+      Common.address == null;
+      Common.userProfilePicture == null;
       setState(() {
         isLoggedIn = false;
         Navigator.pushReplacement(

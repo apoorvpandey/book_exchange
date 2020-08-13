@@ -153,11 +153,11 @@ class _ProductDetailsState extends State<ProductDetails> {
     );
   }
 
-  void sendRequest(String name, String userEmail, String nameOfTheProduct, String mobileNumber){
+  void sendRequest(String name, String userEmail, String nameOfTheProduct, String mobileNumber,){
     var id = Uuid();
     String requestId = id.v1();
 
-    _firestore.collection("requests").document(Common.userID).collection("requestedProductsByUser").document(DateTime.now().toString()).setData(
+  /*  _firestore.collection("requests").document(Common.userID).collection("requestedProductsByUser").document(DateTime.now().toString()).setData(
         {
           "UserName": name,
           "UserEmail": userEmail,
@@ -165,15 +165,16 @@ class _ProductDetailsState extends State<ProductDetails> {
           "MobileNumber": mobileNumber,
         }
 
-    );
-   /* _firestore.collection("requests").document(requestId).setData(
+    );*/
+    _firestore.collection("requests").document(requestId).setData(
         {
           "UserName": name,
           "UserEmail": userEmail,
           "NameOfTheRequestedProduct": nameOfTheProduct,
           "MobileNumber": mobileNumber,
+          "UserID": Common.userID,
         }
-        );*/
+        );
 
     Fluttertoast.showToast(
         msg: "Your request has been sent! Don't send duplicate requests by clicking again and again",

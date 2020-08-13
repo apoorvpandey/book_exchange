@@ -169,6 +169,7 @@ class _ProfilePageState extends State<ProfilePage> {
       "ID": Common.userID,
       "userName": Common.userName,
       "profilePicture": Common.userProfilePicture,
+      "userEmail": Common.userEmail,
       "mobileNumber": _mobileNumberTextEditingController.text,
       "address": _addressTextEditingController.text,
     });
