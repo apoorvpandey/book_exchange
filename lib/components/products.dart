@@ -22,6 +22,8 @@ class _ProductsState extends State<Products> {
   @override
   Widget build(BuildContext context) {
     return GridView.builder(
+      physics: NeverScrollableScrollPhysics(),
+        shrinkWrap: true,
         itemCount: products.length,
         gridDelegate:
             new SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
@@ -112,11 +114,12 @@ class SingleProduct extends StatelessWidget {
                     child: Image.network(
                       productPicture,
                       fit: BoxFit.cover,
-                    )
+                    ),
                 ),
               ),
             )),
       ),
     );
+    
   }
 }

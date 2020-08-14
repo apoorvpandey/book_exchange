@@ -36,15 +36,14 @@ class _LoginState extends State<Login> {
     });
     isLoggedIn = await googleSignIn.isSignedIn();
 
-    FirebaseUser user = await firebaseAuth.currentUser().then((user){
-      if(user!=null)
-        {
-          Common.userID = user.uid;
-          Common.userProfilePicture = user.photoUrl;
-          Common.userName = user.displayName;
-          Common.userEmail = user.email;
-          setState(() => isLoggedIn = true);
-        }
+    FirebaseUser user = await firebaseAuth.currentUser().then((user) {
+      if (user != null) {
+        Common.userID = user.uid;
+        Common.userProfilePicture = user.photoUrl;
+        Common.userName = user.displayName;
+        Common.userEmail = user.email;
+        setState(() => isLoggedIn = true);
+      }
       return null;
     });
     if (isLoggedIn) {
@@ -63,32 +62,33 @@ class _LoginState extends State<Login> {
     });
 
     GoogleSignInAccount googleUser = await googleSignIn.signIn();
-    GoogleSignInAuthentication googleSignInAuthentication =  await googleUser.authentication;
+    GoogleSignInAuthentication googleSignInAuthentication =
+        await googleUser.authentication;
 
     AuthCredential credential = GoogleAuthProvider.getCredential(
         idToken: googleSignInAuthentication.idToken,
         accessToken: googleSignInAuthentication.accessToken);
 
-    AuthResult authResults = (await _auth .signInWithCredential(credential));
-
-
+    AuthResult authResults = (await _auth.signInWithCredential(credential));
 
     if (authResults != null) {
-
-      print("userName"+authResults.user.displayName);
-      print("userPhoto"+authResults.user.photoUrl);
+      print("userName" + authResults.user.displayName);
+      print("userPhoto" + authResults.user.photoUrl);
       Common.userName = authResults.user.displayName;
       Common.userEmail = authResults.user.email;
       Common.userProfilePicture = authResults.user.photoUrl;
-      print("UserId"+authResults.user.uid);
+      print("UserId" + authResults.user.uid);
       final QuerySnapshot result = await Firestore.instance
           .collection("Users")
           .where("ID", isEqualTo: authResults.user.uid)
           .getDocuments();
       final List<DocumentSnapshot> documents = result.documents;
       if (documents.length == 0) {
-        print("UserId"+googleUser.id);
-        Firestore.instance.collection("Users").document(authResults.user.uid).setData({
+        print("UserId" + googleUser.id);
+        Firestore.instance
+            .collection("Users")
+            .document(authResults.user.uid)
+            .setData({
           "ID": authResults.user.uid,
           "userName": authResults.user.displayName,
           "profilePicture": authResults.user.photoUrl,
@@ -99,11 +99,7 @@ class _LoginState extends State<Login> {
         Common.userName = authResults.user.displayName;
         Common.userProfilePicture = authResults.user.photoUrl;
         Common.userEmail = authResults.user.email;
-      }
-      else
-        {
-
-        }
+      } else {}
 
       Fluttertoast.showToast(
           msg: "Sign in successful",
@@ -112,8 +108,7 @@ class _LoginState extends State<Login> {
           timeInSecForIosWeb: 1,
           backgroundColor: Colors.black,
           textColor: Colors.white,
-          fontSize: 16.0
-      );
+          fontSize: 16.0);
 
       Navigator.pushReplacement(
           context, MaterialPageRoute(builder: (context) => HomePage()));
@@ -128,13 +123,12 @@ class _LoginState extends State<Login> {
           timeInSecForIosWeb: 1,
           backgroundColor: Colors.black,
           textColor: Colors.white,
-          fontSize: 16.0
-      );
+          fontSize: 16.0);
     }
   }
 
   Future<void> googleSignOut() async {
-    await _auth.signOut().then((value){
+    await _auth.signOut().then((value) {
       _googleSignIn.signOut();
       setState(() {
         isLoggedIn = false;
@@ -174,8 +168,18 @@ class _LoginState extends State<Login> {
                           key: _formKey,
                           child: Column(
                             children: [
+                              Padding(
+                                padding: const EdgeInsets.fromLTRB(16, 16, 16, 24),
+                                child: Container(
+                                  child: Text(
+                                    "Login Using Your Google Account To Continue Using This App!",
+                                    style: TextStyle(color: Colors.white.withOpacity(0.8), fontSize: 18),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ),
+                              ),
                               // Email Field Start //
-                              Container(
+                              /*Container(
                                 margin: EdgeInsets.only(bottom: 32),
                                 height: 54,
                                 width: MediaQuery.of(context).size.width,
@@ -217,10 +221,10 @@ class _LoginState extends State<Login> {
                                     ),
                                   ),
                                 ),
-                              ),
+                              ),*/
                               // Email Field End //
                               // Password Field Start
-                              Container(
+                              /*Container(
                                 margin: EdgeInsets.only(bottom: 32),
                                 height: 54,
                                 width: MediaQuery.of(context).size.width,
@@ -259,8 +263,8 @@ class _LoginState extends State<Login> {
                                     ),
                                   ),
                                 ),
-                              ),
-                              Container(
+                              ),*/
+                              /* Container(
                                 margin:
                                     const EdgeInsets.fromLTRB(64, 0, 64, 18),
                                 alignment: Alignment.center,
@@ -275,20 +279,20 @@ class _LoginState extends State<Login> {
                                   style: TextStyle(
                                       color: Colors.white.withOpacity(0.8)),
                                 ),
-                              ),
+                              ),*/
                               // Password Field End
 
-                              Container(
+                              /*Container(
                                   margin: EdgeInsets.fromLTRB(24, 0, 24, 0),
-                                  child: Divider(color: Colors.grey)),
-                              Container(
+                                  child: Divider(color: Colors.grey)),*/
+                              /*Container(
                                 margin: EdgeInsets.fromLTRB(0, 8, 0, 16),
                                 child: Text(
                                   "Other login option",
                                   style: TextStyle(
                                       color: Colors.white.withOpacity(0.8)),
                                 ),
-                              ),
+                              ),*/
                               GestureDetector(
                                 onTap: () {
                                   handleSign();
@@ -310,7 +314,7 @@ class _LoginState extends State<Login> {
                                   ),
                                 ),
                               ),
-                              GestureDetector(
+                              /*GestureDetector(
                                 onTap: () {
                                   Navigator.push(
                                       context,
@@ -325,7 +329,7 @@ class _LoginState extends State<Login> {
                                         color: Colors.white.withOpacity(0.8)),
                                   ),
                                 ),
-                              ),
+                              ),*/
                             ],
                           ),
                         ),

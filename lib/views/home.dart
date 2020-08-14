@@ -159,18 +159,22 @@ class _HomePageState extends State<HomePage> {
           ],
         ),
       ),
-      body: new ListView(
-        children: [
-          imageCarousel,
-          new Padding(
-            padding: const EdgeInsets.fromLTRB(0, 4, 0, 4),
-            child: Text("Available products"),
-          ),
-          Container(
-            height: 420,
-            child: Products(),
-          ),
-        ],
+      body: SingleChildScrollView(
+        physics: AlwaysScrollableScrollPhysics(),
+        child: new Column(
+          children: [
+            imageCarousel,
+            new Padding(
+              padding: const EdgeInsets.fromLTRB(0, 4, 0, 4),
+              child: Text("Available products"),
+            ),
+            Container(
+              /*height: MediaQuery.of(context).size.height,*/
+              /*height: 420,*/
+              child: Products(),
+            ),
+          ],
+        ),
       ),
     );
   }
