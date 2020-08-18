@@ -59,22 +59,38 @@ class _ProductDetailsState extends State<ProductDetails> {
               ),
               footer: Container(
                 color: Colors.white70,
-                child: ListTile(
-                  leading: Text(
-                    widget.productDetailsName,
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
-                  ),
-                  title: Row(
-                    children: [
-                      Expanded(
-                        child: Text(
-                          "₹${widget.productDetailsNewPrice}",
-                          style: TextStyle(
-                              color: Colors.red, fontWeight: FontWeight.bold),
+                child: Column(
+                  children: [
+                    Row(
+                      children: [
+                        Wrap(
+                          children: [
+                            Container(
+                              margin: EdgeInsets.only(left: 8, top: 8),
+                              child: Flexible(
+                                child: Text(
+                                  widget.productDetailsName,
+                                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
-                      ),
-                    ],
-                  ),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        Container(
+                          margin: EdgeInsets.only(left: 8),
+                          child: Text(
+                            "₹${widget.productDetailsNewPrice}",
+                            style: TextStyle(
+                                color: Colors.red, fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
               ),
             ),
@@ -88,7 +104,7 @@ class _ProductDetailsState extends State<ProductDetails> {
             children: [
               Expanded(
                 child: Padding(
-                  padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
+                  padding: const EdgeInsets.fromLTRB(16, 8, 16, 0),
                   child: MaterialButton(
                       onPressed: () {
                         if(Common.mobileNumber != null && Common.address != null)
@@ -112,12 +128,12 @@ class _ProductDetailsState extends State<ProductDetails> {
             ],
           ),
           Divider(color: Colors.grey),
-          ListTile(
+          /*ListTile(
             title: Text("Product details"),
             subtitle: Text(
                 "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset"),
           ),
-          Divider(color: Colors.grey),
+          Divider(color: Colors.grey),*/
           Row(
             children: [
               Padding(
@@ -138,7 +154,7 @@ class _ProductDetailsState extends State<ProductDetails> {
               Padding(
                 padding: const EdgeInsets.fromLTRB(12, 5, 5, 5),
                 child: Text(
-                  "Product brand",
+                  "Product author",
                   style: TextStyle(color: Colors.grey),
                 ),
               ),
@@ -173,6 +189,7 @@ class _ProductDetailsState extends State<ProductDetails> {
           "NameOfTheRequestedProduct": nameOfTheProduct,
           "MobileNumber": mobileNumber,
           "UserID": Common.userID,
+          "Address": Common.address,
         }
         );
 

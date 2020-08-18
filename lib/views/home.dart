@@ -1,6 +1,7 @@
 import 'package:bookexchange/components/products.dart';
 import 'package:bookexchange/database/common.dart';
 import 'package:bookexchange/model/user_model.dart';
+import 'package:bookexchange/views/about.dart';
 import 'package:bookexchange/views/login.dart';
 import 'package:bookexchange/views/user_account.dart';
 import 'package:bookexchange/views/user_requests.dart';
@@ -135,7 +136,9 @@ class _HomePageState extends State<HomePage> {
               ),
             ),*/
             InkWell(
-              onTap: () {},
+              onTap: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context)=> AboutApp()));
+              },
               child: ListTile(
                 title: Text("About"),
                 leading: Icon(
