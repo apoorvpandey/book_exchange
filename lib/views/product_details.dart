@@ -13,12 +13,11 @@ class ProductDetails extends StatefulWidget {
   final productDetailsPicture;
   final productDetailsBrand;
 
-  ProductDetails(
-      {this.productDetailsName,
-      this.productDetailsNewPrice,
-      this.productDetailsOldPrice,
-      this.productDetailsBrand,
-      this.productDetailsPicture});
+  ProductDetails({this.productDetailsName,
+    this.productDetailsNewPrice,
+    this.productDetailsOldPrice,
+    this.productDetailsBrand,
+    this.productDetailsPicture});
 
   @override
   _ProductDetailsState createState() => _ProductDetailsState();
@@ -26,7 +25,7 @@ class ProductDetails extends StatefulWidget {
 
 class _ProductDetailsState extends State<ProductDetails> {
 
-  String _string="";
+//  String _string = "";
 
   TextEditingController phoneNumberTextEditingController = TextEditingController();
   TextEditingController nameTextEditingController = TextEditingController();
@@ -70,7 +69,8 @@ class _ProductDetailsState extends State<ProductDetails> {
                               child: Flexible(
                                 child: Text(
                                   widget.productDetailsName,
-                                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                                  style: TextStyle(fontWeight: FontWeight.bold,
+                                      fontSize: 18),
                                 ),
                               ),
                             ),
@@ -97,7 +97,6 @@ class _ProductDetailsState extends State<ProductDetails> {
           ),
           Row(
             children: [
-
             ],
           ),
           Row(
@@ -107,17 +106,18 @@ class _ProductDetailsState extends State<ProductDetails> {
                   padding: const EdgeInsets.fromLTRB(16, 8, 16, 0),
                   child: MaterialButton(
                       onPressed: () {
-                        if(Common.mobileNumber != null && Common.address != null)
-                          {
-                            sendRequest(Common.userName, Common.userEmail, widget.productDetailsName, Common.mobileNumber);
-                          }
-                        else
-                          {
-                            Fluttertoast.showToast(
-                                backgroundColor: Colors.black,
-                                msg: "Complete your profile first!");
-                            Navigator.push(context, MaterialPageRoute(builder: (context) => ProfilePage()));
-                          }
+                        if (Common.mobileNumber != null &&
+                            Common.address != null) {
+                          sendRequest(Common.userName, Common.userEmail,
+                              widget.productDetailsName, Common.mobileNumber);
+                        }
+                        else {
+                          Fluttertoast.showToast(
+                              backgroundColor: Colors.black,
+                              msg: "Complete your profile first!");
+                          Navigator.push(context, MaterialPageRoute(builder: (
+                              context) => ProfilePage()));
+                        }
                       },
                       color: Colors.red,
                       textColor: Colors.white,
@@ -169,11 +169,12 @@ class _ProductDetailsState extends State<ProductDetails> {
     );
   }
 
-  void sendRequest(String name, String userEmail, String nameOfTheProduct, String mobileNumber,){
+  void sendRequest(String name, String userEmail, String nameOfTheProduct,
+      String mobileNumber,) {
     var id = Uuid();
     String requestId = id.v1();
 
-  /*  _firestore.collection("requests").document(Common.userID).collection("requestedProductsByUser").document(DateTime.now().toString()).setData(
+    /*  _firestore.collection("requests").document(Common.userID).collection("requestedProductsByUser").document(DateTime.now().toString()).setData(
         {
           "UserName": name,
           "UserEmail": userEmail,
@@ -191,7 +192,7 @@ class _ProductDetailsState extends State<ProductDetails> {
           "UserID": Common.userID,
           "Address": Common.address,
         }
-        );
+    );
 
     Fluttertoast.showToast(
         msg: "Your request has been sent! Don't send duplicate requests by clicking again and again",
@@ -270,11 +271,10 @@ class _SimilarProductsState extends State<SimilarProducts> {
 class SimilarSingleProduct extends StatelessWidget {
   final productName, productPicture, productOldPrice, productPrice;
 
-  SimilarSingleProduct(
-      {this.productName,
-      this.productOldPrice,
-      this.productPicture,
-      this.productPrice});
+  SimilarSingleProduct({this.productName,
+    this.productOldPrice,
+    this.productPicture,
+    this.productPrice});
 
   @override
   Widget build(BuildContext context) {
@@ -284,8 +284,10 @@ class SimilarSingleProduct extends StatelessWidget {
             tag: Text("Hero"),
             child: Material(
               child: InkWell(
-                onTap: () => Navigator.of(context).push(new MaterialPageRoute(
-                    builder: (context) => new ProductDetails(
+                onTap: () =>
+                    Navigator.of(context).push(new MaterialPageRoute(
+                        builder: (context) =>
+                        new ProductDetails(
                           productDetailsName: productName,
                           productDetailsNewPrice: productPrice,
                           productDetailsOldPrice: productOldPrice,
