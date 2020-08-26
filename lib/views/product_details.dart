@@ -24,7 +24,6 @@ class ProductDetails extends StatefulWidget {
 }
 
 class _ProductDetailsState extends State<ProductDetails> {
-
 //  String _string = "";
 
   TextEditingController phoneNumberTextEditingController = TextEditingController();
