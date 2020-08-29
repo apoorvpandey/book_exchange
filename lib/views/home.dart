@@ -2,6 +2,7 @@ import 'package:bookexchange/components/products.dart';
 import 'package:bookexchange/database/common.dart';
 import 'package:bookexchange/model/user_model.dart';
 import 'package:bookexchange/views/about.dart';
+import 'package:bookexchange/views/add_product.dart';
 import 'package:bookexchange/views/login.dart';
 import 'package:bookexchange/views/user_account.dart';
 import 'package:bookexchange/views/user_requests.dart';
@@ -101,19 +102,19 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
             ),
-            /*InkWell(
+            InkWell(
               onTap: () {
                 Navigator.push(
-                    context, MaterialPageRoute(builder: (context) => Cart()));
+                    context, MaterialPageRoute(builder: (context) => AddProduct()));
               },
               child: ListTile(
-                title: Text("Shopping Cart"),
+                title: Text("Add your book"),
                 leading: Icon(
-                  Icons.shopping_cart,
+                  Icons.add,
                   color: Colors.red,
                 ),
               ),
-            ),*/
+            ),
             /*InkWell(
               onTap: () {},
               child: ListTile(
