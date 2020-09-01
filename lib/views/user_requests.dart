@@ -77,7 +77,8 @@ class _UserRequestsState extends State<UserRequests> {
                   )
                 ],
               );
-            }));
+            })
+    );
   }
 
   void getRequestedProductFromDatabase() async {

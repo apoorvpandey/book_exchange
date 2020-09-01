@@ -80,7 +80,7 @@ class SingleProduct extends StatelessWidget {
     return Container(
       child: Card(
         child: Hero(
-            tag: Text("Hero"),
+            tag: Text("test"),
             child: Material(
               child: InkWell(
                 onTap: () => Navigator.of(context).push(new MaterialPageRoute(

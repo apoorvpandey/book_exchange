@@ -7,6 +7,7 @@ import 'package:bookexchange/views/login.dart';
 import 'package:bookexchange/views/user_account.dart';
 import 'package:bookexchange/views/user_requests.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -104,8 +105,19 @@ class _HomePageState extends State<HomePage> {
             ),
             InkWell(
               onTap: () {
-                Navigator.push(
-                    context, MaterialPageRoute(builder: (context) => AddProduct()));
+                if(Common.mobileNumber != null && Common.address != null)
+                  {
+                    Navigator.push(
+                        context, MaterialPageRoute(builder: (context) => AddProduct()));
+                  }
+                  else
+                    {
+                      Fluttertoast.showToast(
+                          backgroundColor: Colors.black,
+                          msg: "Complete your profile first!");
+                      Navigator.push(context, MaterialPageRoute(builder: (
+                          context) => ProfilePage()));
+                    }
               },
               child: ListTile(
                 title: Text("Add your book"),
